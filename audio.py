@@ -4,8 +4,6 @@ import time
 from mutagen import File
 import pygame
 
-import helpers
-
 pygame.init()
 pygame.mixer.init()
 MUSIC_END = pygame.USEREVENT + 1
@@ -85,15 +83,3 @@ class AudioPlayer():
     def rewind(self):
         print("Restarting song")
         pygame.mixer.music.rewind()
-
-player = AudioPlayer()
-player.new_song()
-
-while True:
-    for event in pygame.event.get():
-        if event.type == MUSIC_END:
-            if player.autoplay:
-                player.new_song()
-    player.tick()
-    print(player.query())
-    time.sleep(1)

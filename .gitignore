@@ -1,2 +1,4 @@
 *.pyc
 *.json
+!theme.json
+!settings.json

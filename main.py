@@ -1,7 +1,12 @@
 import json
+import os
 import sys
 import tkinter as tk
 from pathlib import Path
+
+os.environ["SDL_AUDIO_DEVICE_APP_NAME"] = "Music Player"
+os.environ["SDL_APP_NAME"] = "Celeste Player"
+os.environ["PULSE_PROP"] = "application.name='Celeste Player' application.icon_name='audio-x-generic'"
 
 import pygame
 
@@ -9,6 +14,10 @@ import audio
 import helpers
 import playlist_seeker
 import images
+import settings as setting
+
+
+
 
 val = []
 def new_playlist(assets):
@@ -59,6 +68,7 @@ def crash():
 
 main = tk.Tk()
 main.geometry("600x300")
+main.title("Music player v1.0.0")
 main.resizable(False, False)
 crash_messages = []
 
@@ -99,7 +109,8 @@ assets = {
     "Skip": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Skip.png"), 90), command=skip),
     "New Playlist": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Next Playlist.png"), 90), command=lambda: playlists_new(assets)),
     "Shuffle": tk.Button(main, image=images.process(("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90), command=shuffle),
-    "Rewind": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Rewind.png"), 90), command=rewind)
+    "Rewind": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Rewind.png"), 90), command=rewind),
+    "Settings": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Settings.png"), 40),  bd=0, highlightthickness=0, command=lambda: (setting.run(main, active_theme)))
 }
 percent_left = 0.0
 assets["Progress bar"] = assets["Canvas"].create_rectangle(0, 0, int(percent_left * 390), 11, fill=active_theme["Colours"]["Green"])
@@ -117,6 +128,7 @@ assets["Skip"].place(x=255, y=200)
 assets["New Playlist"].place(x=500, y=200)
 assets["Shuffle"].place(x=377, y=200)
 assets["Rewind"].place(x=10, y=200)
+assets["Settings"].place(x=560, y=-1)
 
 def playlists_new(assets):
     scheduler.next_playlist()

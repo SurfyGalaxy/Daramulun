@@ -40,6 +40,16 @@ def pause():
 def skip():
     player.skip()
 
+def shuffle():
+    if player.shuffle:
+        player.shuffle = False
+        assets["Shuffle"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Shuffle Off.png"), 90))
+        print(ordered)
+        player.queue = ordered.copy()
+    else:
+        player.shuffle = True
+        assets["Shuffle"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90))
+
 def crash():
     import crashed
     crashed.crash_window(main, crash_messages)
@@ -102,6 +112,7 @@ assets["Time"].place(x=395 - assets["Time"].winfo_reqwidth() / 2, y=160)
 assets["Play"].place(x=132, y=200)
 assets["Skip"].place(x=255, y=200)
 assets["New Playlist"].place(x=500, y=200)
+assets["Shuffle"].place(x=377, y=200)
 
 def playlists_new(assets):
     scheduler.next_playlist()
@@ -118,6 +129,8 @@ for song in data[0]["Songs"]:
     queue.append("./" + str(data[1]) + '/' + song["Path"])
 
 player = audio.AudioPlayer()
+
+ordered = queue.copy()
 
 player.queue = queue
 

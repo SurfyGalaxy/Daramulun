@@ -1,4 +1,5 @@
 import os
+import random
 import time
 
 from mutagen import File
@@ -14,9 +15,10 @@ class AudioPlayer():
 "/home/surfygalaxy/.steam/debian-installation/steamapps/music/Celeste Original Soundtrack/Lena Raine - Celeste Original Soundtrack - 02 First Steps.mp3"]
         self.volume = 0.5
         self.play = True
-        self.loop = False
+        self.loop = True
         self.autoplay = True
         self.started = False
+        self.shuffle = True
         pygame.mixer.music.set_volume(self.volume)
         pygame.mixer.music.set_endevent(MUSIC_END)
 
@@ -28,10 +30,13 @@ class AudioPlayer():
             
         elif not pygame.mixer.music.get_busy():
             self.started = True
-            print(self.queue[0])
+            print(self.queue)
             if os.path.isfile(self.queue[0]) and self.queue[0].endswith(".mp3"):
                 if not pygame.mixer.music.get_busy():
-                    self.playing = self.queue.pop(0)
+                    if not self.shuffle:
+                        self.playing = self.queue.pop(0)
+                    else:
+                        self.playing = self.queue.pop(random.randrange(len(self.queue)))
                     pygame.mixer.music.load(self.playing)
                     pygame.mixer.music.play()
                     self.duration = File(self.playing).info.length

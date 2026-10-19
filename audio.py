@@ -19,6 +19,7 @@ class AudioPlayer():
         self.autoplay = True
         self.started = False
         self.shuffle = True
+        self.start_time = None
         pygame.mixer.music.set_volume(self.volume)
         pygame.mixer.music.set_endevent(MUSIC_END)
 
@@ -41,6 +42,7 @@ class AudioPlayer():
                     pygame.mixer.music.play()
                     self.duration = File(self.playing).info.length
                     print(f"Playing {self.playing}")
+                    self.start_time = time.monotonic_ns()
                     if self.loop:
                         self.queue.append(self.playing)
                 else:
@@ -54,7 +56,7 @@ class AudioPlayer():
         elif not self.play:
             pygame.mixer.music.pause()
         if self.started and pygame.mixer.music.get_busy():
-            self.time = pygame.mixer.music.get_pos() / 1000
+            self.time = (time.monotonic_ns() - self.start_time) / 1000000000
     
     def query(self) -> dict:
         """Get info about what's playing"""
@@ -89,3 +91,4 @@ class AudioPlayer():
     def rewind(self):
         print("Restarting song")
         pygame.mixer.music.rewind()
+        self.start_time = time.monotonic_ns()

@@ -50,6 +50,9 @@ def shuffle():
         player.shuffle = True
         assets["Shuffle"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90))
 
+def rewind():
+    player.rewind()
+
 def crash():
     import crashed
     crashed.crash_window(main, crash_messages)
@@ -96,7 +99,8 @@ assets = {
     "Play": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Pause.png"), 90), command=pause),
     "Skip": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Skip.png"), 90), command=skip),
     "New Playlist": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Next Playlist.png"), 90), command=lambda: playlists_new(assets)),
-    "Shuffle": tk.Button(main, image=images.process(("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90), command=shuffle)
+    "Shuffle": tk.Button(main, image=images.process(("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90), command=shuffle),
+    "Rewind": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Rewind.png"), 90), command=rewind)
 }
 percent_left = 0.0
 assets["Progress bar"] = assets["Canvas"].create_rectangle(0, 0, int(percent_left * 390), 11, fill=active_theme["Colours"]["Green"])
@@ -113,6 +117,7 @@ assets["Play"].place(x=132, y=200)
 assets["Skip"].place(x=255, y=200)
 assets["New Playlist"].place(x=500, y=200)
 assets["Shuffle"].place(x=377, y=200)
+assets["Rewind"].place(x=10, y=200)
 
 def playlists_new(assets):
     scheduler.next_playlist()

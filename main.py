@@ -44,7 +44,6 @@ def shuffle():
     if player.shuffle:
         player.shuffle = False
         assets["Shuffle"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Shuffle Off.png"), 90))
-        print(ordered)
         player.queue = ordered.copy()
     else:
         player.shuffle = True

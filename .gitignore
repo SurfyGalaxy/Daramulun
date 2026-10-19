@@ -2,3 +2,6 @@
 *.json
 !theme.json
 !settings.json
+*.mp3
+*.png
+!/Assets/**/*.png

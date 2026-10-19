@@ -2,25 +2,37 @@
     {
         "Name": "Light (Latte)",
         "Colours": {
-            "Green": "40a02b",
-            "Base": "eff1f5",
-            "Text": "4c4f69",
-            "Subtext 0": "6c6f85",
-            "Subtext 1": "5c5f77",
-            "Overlay 2": "7c7f93",
-            "Surface 0": "ccd0da"
+            "Green": "#40a02b",
+            "Base": "#eff1f5",
+            "Text": "#4c4f69",
+            "Subtext 0": "#6c6f85",
+            "Subtext 1": "#5c5f77",
+            "Overlay 2": "#7c7f93",
+            "Surface 0": "#ccd0da"
+        },
+        "Fonts": {
+            "Title": "Arial",
+            "Artist": "Arial",
+            "Playlist": "Arial",
+            "Time": "Arial"
         }
     },
     {
         "Name": "Dark (Mocha)",
         "Colours": {
-            "Green": "a6e3a1",
-            "Base": "1e1e2e",
-            "Text": "ccd6f4",
-            "Subtext 0": "bac2de",
-            "Subtext 1": "a6adc8",
-            "Overlay 2": "9399b2",
-            "Surface 0": "313244"
+            "Green": "#a6e3a1",
+            "Base": "#1e1e2e",
+            "Text": "#ccd6f4",
+            "Subtext 0": "#bac2de",
+            "Subtext 1": "#a6adc8",
+            "Overlay 2": "#9399b2",
+            "Surface 0": "#313244"
+        },
+        "Fonts": {
+            "Title": "Arial",
+            "Artist": "Arial",
+            "Playlist": "Arial",
+            "Time": "Arial"
         }
     }
 ]

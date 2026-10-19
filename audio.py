@@ -28,13 +28,14 @@ class AudioPlayer():
             
         elif not pygame.mixer.music.get_busy():
             self.started = True
+            print(self.queue[0])
             if os.path.isfile(self.queue[0]) and self.queue[0].endswith(".mp3"):
                 if not pygame.mixer.music.get_busy():
                     self.playing = self.queue.pop(0)
                     pygame.mixer.music.load(self.playing)
                     pygame.mixer.music.play()
-                    print(f"Playing {self.playing}")
                     self.duration = File(self.playing).info.length
+                    print(f"Playing {self.playing}")
                     if self.loop:
                         self.queue.append(self.playing)
                 else:
@@ -47,7 +48,7 @@ class AudioPlayer():
             pygame.mixer.music.unpause()
         elif not self.play:
             pygame.mixer.music.pause()
-        if self.started:
+        if self.started and pygame.mixer.music.get_busy():
             self.time = pygame.mixer.music.get_pos() / 1000
     
     def query(self) -> dict:

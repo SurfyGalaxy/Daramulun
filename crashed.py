@@ -2,6 +2,7 @@ import tkinter as tk
 def crash_window(parent, errors: list):
     msg = ''
     for error in errors:
+        print(errors)
         msg = msg + error + '\n'
     msg = msg.strip()
 

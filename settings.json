@@ -1,7 +1,7 @@
 {
-    "Theme": "Light (Latte)",
+    "Theme": "Dark (Mocha)",
     "Autoplay": true,
     "Shuffle": false,
     "Loop": true,
-    "Music directory": "./Playlists"
+    "Music Directory": "./Playlists"
 }

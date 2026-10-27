@@ -1,7 +1,6 @@
 {
     "Theme": "Dark (Mocha)",
     "Autoplay": true,
-    "Shuffle": false,
-    "Loop": true,
+    "Play On Start": false,
     "Music Directory": "./Playlists"
 }

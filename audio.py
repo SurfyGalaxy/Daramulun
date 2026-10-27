@@ -22,6 +22,7 @@ class AudioPlayer():
         self.start_time = None
         self.offset = 0
         self.pause_time = None
+        self.time = 0
         pygame.mixer.music.set_volume(self.volume)
         pygame.mixer.music.set_endevent(MUSIC_END)
 
@@ -35,6 +36,7 @@ class AudioPlayer():
             self.started = True
             if os.path.isfile(self.queue[0]) and self.queue[0].endswith(".mp3"):
                 if not pygame.mixer.music.get_busy():
+                    self.start_time = time.monotonic_ns()
                     if not self.shuffle:
                         self.playing = self.queue.pop(0)
                     else:
@@ -44,6 +46,7 @@ class AudioPlayer():
                     self.duration = File(self.playing).info.length
                     print(f"Playing {self.playing}")
                     self.start_time = time.monotonic_ns()
+                    self.offset = 0
                     if self.loop:
                         self.queue.append(self.playing)
                 else:
@@ -63,6 +66,11 @@ class AudioPlayer():
             pygame.mixer.music.pause()
         if self.started and pygame.mixer.music.get_busy():
             if self.offset is not None:
+                print(f"""Total: {time.monotonic_ns() - self.start_time - self.offset}
+Start: {self.start_time}
+Offset: {self.offset}
+Time: {time.monotonic_ns()}
+""")
                 self.time = (time.monotonic_ns() - self.start_time - self.offset) / 1000000000
             else:
                 self.time = (time.monotonic_ns() - self.start_time) / 1000000000

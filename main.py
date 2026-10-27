@@ -4,9 +4,10 @@ import sys
 import tkinter as tk
 from pathlib import Path
 
-os.environ["SDL_AUDIO_DEVICE_APP_NAME"] = "Music Player"
-os.environ["SDL_APP_NAME"] = "Celeste Player"
-os.environ["PULSE_PROP"] = "application.name='Celeste Player' application.icon_name='audio-x-generic'"
+# So it looks like we know what we doing (We don't :3)
+os.environ["SDL_AUDIO_DEVICE_APP_NAME"] = "Daramulun"
+os.environ["SDL_APP_NAME"] = "Daramulun"
+os.environ["PULSE_PROP"] = "application.name='Daramulun' application.icon_name='audio-x-generic'"
 
 import pygame
 
@@ -14,8 +15,13 @@ import audio
 import helpers
 import playlist_seeker
 import images
-import settings as setting
+#import settings as setting
 
+def app_dir():
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).parent
+    return Path(__file__).parent
+thing = app_dir()
 
 
 
@@ -68,13 +74,13 @@ def crash():
 
 main = tk.Tk()
 main.geometry("600x300")
-main.title("Music player v1.0.0")
+main.title("Daramulun")
 main.resizable(False, False)
 crash_messages = []
 
-if not Path("./settings.json").is_file():
+if not (thing / "./settings.json").is_file():
     crash_messages.append("Missing settings.json (is it in the same directory level?)")
-if not Path("./theme.json").is_file():
+if not (thing / "./theme.json").is_file():
     crash_messages.append("Couldn't find theme.json")
 
 if crash_messages:
@@ -110,7 +116,7 @@ assets = {
     "New Playlist": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Next Playlist.png"), 90), command=lambda: playlists_new(assets)),
     "Shuffle": tk.Button(main, image=images.process(("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90), command=shuffle),
     "Rewind": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Rewind.png"), 90), command=rewind),
-    "Settings": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Settings.png"), 40),  bd=0, highlightthickness=0, command=lambda: (setting.run(main, active_theme)))
+    #"Settings": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Settings.png"), 40),  bd=0, highlightthickness=0, command=lambda: (setting.run(main, active_theme)))
 }
 percent_left = 0.0
 assets["Progress bar"] = assets["Canvas"].create_rectangle(0, 0, int(percent_left * 390), 11, fill=active_theme["Colours"]["Green"])
@@ -128,7 +134,7 @@ assets["Skip"].place(x=255, y=200)
 assets["New Playlist"].place(x=500, y=200)
 assets["Shuffle"].place(x=377, y=200)
 assets["Rewind"].place(x=10, y=200)
-assets["Settings"].place(x=560, y=-1)
+#assets["Settings"].place(x=560, y=-1)
 
 def playlists_new(assets):
     scheduler.next_playlist()
@@ -145,6 +151,9 @@ for song in data[0]["Songs"]:
     queue.append("./" + str(data[1]) + '/' + song["Path"])
 
 player = audio.AudioPlayer()
+player.autoplay = settings["Autoplay"]
+if not settings["Play On Start"]:
+    pause()
 
 ordered = queue.copy()
 
@@ -162,6 +171,8 @@ def tick():
     player.tick()
     update = player.query()
 
+    if update["Time"] < 0:
+        update["Time"] = 0
     assets["Time"].config(text=helpers.fmt(update["Time"]) + " / " + helpers.fmt(update["Duration"]))
     percent_left = update["Time"] / update["Duration"]
 

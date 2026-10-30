@@ -1,6 +1,6 @@
 # Daramulun
 <!--Sleep deprived README writing lessgo-->
-Daramulun is a local music player for <!--shockingly--> music files.
+Daramulun is a local music player for <!--shockingly--> music files. Only Linux <!--the best os--> supported for now.
 
 ## Installation:
 1. Download the latest <!--or another one i'm not ur boss--> release of Daramulun from <!--you use github you alr know ts--><a href="https://github.com/SurfyGalaxy/Daramulun/releases">the releases tab</a>

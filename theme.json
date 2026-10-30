@@ -7,8 +7,7 @@
             "Text": "#4c4f69",
             "Subtext 0": "#6c6f85",
             "Subtext 1": "#5c5f77",
-            "Overlay 2": "#7c7f93",
-            "Surface 0": "#ccd0da"
+            "Overlay 2": "#7c7f93"
         },
         "Fonts": {
             "Title": "Arial",
@@ -25,8 +24,7 @@
             "Text": "#ccd6f4",
             "Subtext 0": "#bac2de",
             "Subtext 1": "#a6adc8",
-            "Overlay 2": "#9399b2",
-            "Surface 0": "#313244"
+            "Overlay 2": "#9399b2"
         },
         "Fonts": {
             "Title": "Arial",

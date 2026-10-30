@@ -6,3 +6,5 @@
 *.png
 !/Assets/**/*.png
 /dist
+/build
+*.tar.gz

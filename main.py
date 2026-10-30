@@ -30,6 +30,7 @@ def new_playlist(assets):
     global val
     data = scheduler.list_songs()
     if isinstance(data, str):
+        print(data)
         crash_messages = [data]
         crash()
     
@@ -37,7 +38,7 @@ def new_playlist(assets):
     if songs["Image"] is not None:
         image = images.process(data[1] / songs["Image"], 180)
     else:
-        image = images.process(Path("./Assets/Placeholder.png"), 180)
+        image = images.process(thing / "Assets/Placeholder.png", 180)
     val.append(image)
     
     assets["Image"].config(image=image)
@@ -47,10 +48,10 @@ def new_playlist(assets):
 def pause():
     if player.play:
         player.play = False
-        assets["Play"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Play.png"), 90))
+        assets["Play"].config(image=images.process(thing / "Assets" / active_theme["Name"] / "Play.png", 90))
     else:
         player.play = True
-        assets["Play"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Pause.png"), 90))
+        assets["Play"].config(image=images.process(thing / "Assets" / active_theme["Name"] / "Pause.png", 90))
 
 def skip():
     player.skip()
@@ -58,11 +59,11 @@ def skip():
 def shuffle():
     if player.shuffle:
         player.shuffle = False
-        assets["Shuffle"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Shuffle Off.png"), 90))
+        assets["Shuffle"].config(image=images.process(thing / "Assets/" / active_theme["Name"] + "Shuffle Off.png", 90))
         player.queue = ordered.copy()
     else:
         player.shuffle = True
-        assets["Shuffle"].config(image=images.process(Path("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90))
+        assets["Shuffle"].config(image=images.process(thing / "Assets/" / active_theme["Name"] + "Shuffle On.png", 90))
 
 def rewind():
     player.rewind()
@@ -78,29 +79,32 @@ main.title("Daramulun")
 main.resizable(False, False)
 crash_messages = []
 
-if not (thing / "./settings.json").is_file():
+if not (thing / "settings.json").is_file():
     crash_messages.append("Missing settings.json (is it in the same directory level?)")
-if not (thing / "./theme.json").is_file():
+if not (thing / "theme.json").is_file():
     crash_messages.append("Couldn't find theme.json")
 
 if crash_messages:
+    print(crash_messages)
     crash()
 
-with open("theme.json") as f:
+with open(thing / "theme.json") as f:
     themes = json.load(f)
-with open("settings.json") as f:
+with open(thing / "settings.json") as f:
     settings = json.load(f)
 
 active_theme = next((theme for theme in themes if theme["Name"] == settings["Theme"]), f"Theme '{settings["Theme"]}' not found in theme.json")
 
 if isinstance(active_theme, str):
     crash_messages = [active_theme]
+    print(active_theme)
     crash()
 
 scheduler = playlist_seeker.music(settings["Music Directory"])
 scanned = scheduler.scan()
 if isinstance(scanned, str):
     crash_messages = [scanned]
+    print(scanned)
     crash()
 
 main.config(bg=active_theme["Colours"]["Base"])
@@ -111,11 +115,11 @@ assets = {
     "Artist Name": tk.Label(main, bg=active_theme["Colours"]["Base"], fg=active_theme["Colours"]["Subtext 0"], font=(active_theme["Fonts"]["Artist"], 16), text="AAAAAAAAAA"),
     "Playlist Name": tk.Label(main, bg=active_theme["Colours"]["Base"], fg=active_theme["Colours"]["Subtext 1"], font=(active_theme["Fonts"]["Playlist"], 14), text="AAAAAAA"),
     "Time": tk.Label(main, bg=active_theme["Colours"]["Base"], fg=active_theme["Colours"]["Text"], font=(active_theme["Fonts"]["Time"]), text="XX:XX / XX:XX"),
-    "Play": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Pause.png"), 90), command=pause),
-    "Skip": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Skip.png"), 90), command=skip),
-    "New Playlist": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Next Playlist.png"), 90), command=lambda: playlists_new(assets)),
-    "Shuffle": tk.Button(main, image=images.process(("./Assets/" + active_theme["Name"] + "/Shuffle On.png"), 90), command=shuffle),
-    "Rewind": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Rewind.png"), 90), command=rewind),
+    "Play": tk.Button(main, image=images.process(thing / "Assets" / active_theme["Name"] / "Pause.png", 90), command=pause),
+    "Skip": tk.Button(main, image=images.process(thing / "Assets" / active_theme["Name"] / "Skip.png", 90), command=skip),
+    "New Playlist": tk.Button(main, image=images.process(thing / "Assets" / active_theme["Name"] / "Next Playlist.png", 90), command=lambda: playlists_new(assets)),
+    "Shuffle": tk.Button(main, image=images.process(thing / "Assets" / active_theme["Name"] / "Shuffle On.png", 90), command=shuffle),
+    "Rewind": tk.Button(main, image=images.process(thing / "Assets" / active_theme["Name"] / "Rewind.png", 90), command=rewind),
     #"Settings": tk.Button(main, image=images.process(Path("./Assets/" + active_theme["Name"] + "/Settings.png"), 40),  bd=0, highlightthickness=0, command=lambda: (setting.run(main, active_theme)))
 }
 percent_left = 0.0
@@ -148,7 +152,7 @@ assets["Playlist Name"].config(text=str(data[1]).split('/')[1])
 
 queue = []
 for song in data[0]["Songs"]:
-    queue.append("./" + str(data[1]) + '/' + song["Path"])
+    queue.append(str(Path(thing / str(data[1]) / song["Path"])))
 
 player = audio.AudioPlayer()
 player.autoplay = settings["Autoplay"]
